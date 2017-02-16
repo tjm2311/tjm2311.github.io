@@ -1,0 +1,401 @@
+@font-face {
+	font-family:"Raphaelicons";
+	src: url('fonts/raphaelicons-webfont.eot') format('eot');
+	src: url('fonts/raphaelicons-webfont.svg') format('svg');
+	src: url('fonts/raphaelicons-webfont.ttf') format('ttf');
+	src: url('fonts/raphaelicons-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+/*
+ *字体下载：
+ * http://www.dafont.com/
+ * http://www.google.com/webfonts
+ * */
+body{
+	font-family: georgia;
+	background: #ddd;
+	font-weight: 400;
+	font-size: 15px;
+	color: #333;
+	overflow: hidden;
+	-webkit-font-smoothing: antialiased;
+}
+a{
+	text-decoration: none;
+	color: #555;
+}
+.clr{
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+}
+.wrap{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.container{
+	width: 100%;
+	height: 100%;
+}
+/*nav*/
+.nav >input,
+.nav >a{
+	width: 20%;
+	height: 34px;
+	line-height: 34px;
+	position: fixed;
+	bottom: 0;
+}
+.nav > input{
+	opacity: 0;
+	z-index: 999;
+}
+.nav >a{
+	z-index: 10;
+	text-align: center;
+	font-weight: 700;
+	font-size: 16px;
+	background: #e23a6e;
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+}	
+#control-1,#control-1 + a{
+	left: 0;
+}	
+#control-2,#control-2 + a{
+	left: 20%;
+}
+#control-3,#control-3 + a{
+	left: 40%;
+}
+#control-4,#control-4 + a{
+	left: 60%;
+}
+#control-5,#control-5 + a{
+	left: 80%;
+}
+.nav input:checked +a,
+.nav input:checked:hover + a{
+	background: #821134;
+}
+.nav input:checked + a:after{
+	content: '';
+	width: 0px;
+	height: 0px;
+	overflow: hidden;
+	border: 20px solid transparent;
+	border-bottom-color: #821134;
+	position: absolute;
+	left: 50%;
+	bottom: 100%;
+	margin-left: -20px;
+}
+.nav input:hover + a {
+	background: #ad244f;
+}
+/*main*/
+.main,
+.panel{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.main{
+	left: 0;
+	top: 0;
+	webkit-transform:translated3d(0,0,0);
+	   -moz-transform:translated3d(0,0,0);
+	    -ms-transform:translated3d(0,0,0);
+	     -o-transform:translated3d(0,0,0);
+			transform:translated3d(0,0,0);
+	-webkit-backface-visibility:hidden;
+	-moz-transition: all 0.6s ease-in-out;
+	-ms-transition: all 0.6s ease-in-out;
+	-o-transition: all 0.6s ease-in-out;
+	transition: all 0.6s ease-in-out;
+}
+.panel{
+	background: #fff;
+	overflow: hidden;
+}
+#control-1:checked ~ .main{
+	-webkit-transform: translateY(0%);
+	-moz-transform: translateY(0%);
+	-ms-transform: translateY(0%);
+	-o-transform: translateY(0%);
+	transform: translateY(0%);
+}
+#control-2:checked ~ .main{
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
+	transform: translateY(-100%);
+}
+#control-3:checked ~ .main{
+	-webkit-transform: translateY(-200%);
+	-moz-transform: translateY(-200%);
+	-ms-transform: translateY(-200%);
+	-o-transform: translateY(-200%);
+	transform: translateY(-200%);
+}
+#control-4:checked ~ .main{
+	-webkit-transform: translateY(-300%);
+	-moz-transform: translateY(-300%);
+	-ms-transform: translateY(-300%);
+	-o-transform: translateY(-300%);
+	transform: translateY(-300%);
+}
+#control-5:checked ~ .main{
+	-webkit-transform: translateY(-400%);
+	-moz-transform: translateY(-400%);
+	-ms-transform: translateY(-400%);
+	-o-transform: translateY(-400%);
+	transform: translateY(-400%);
+}
+.desc{
+	width: 200px;
+	height: 200px;
+	background: #fa96b5;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	margin-left: -100px;
+	-webkit-transform:translateY(-50%) rotate(45deg);
+	-moz-transform:translateY(-50%) rotate(45deg);
+	-ms-transform:translateY(-50%) rotate(45deg);
+	-o-transform:translateY(-50%) rotate(45deg);
+	transform:translateY(-50%) rotate(45deg);
+}
+[data-icon]:after{
+	content: attr(data-icon);
+	width: 200px;
+	height: 200px;
+	font-size: 90px;
+	color: #fff;
+	text-align: center;
+	line-height: 200px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -100px;
+	-webkit-transform: rotate(-45deg) translateY(25%);
+	-moz-transform: rotate(-45deg) translateY(25%);
+	-ms-transform: rotate(-45deg) translateY(25%);
+	-o-transform: rotate(-45deg) translateY(25%);
+	transform: rotate(-45deg) translateY(25%);
+	font-family:"Raphaelicons";
+	text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+}
+/*h2和p的样式和动画*/
+.panel h2{
+	color: #E23A6E;
+	font-size: 54px;
+	line-height: 50px;
+	text-align: center;
+	font-weight: 900;
+	width: 80%;
+	position: absolute;
+	left: 10%;
+	top: 50%;
+	margin-top: -70px;
+	text-shadow: 1px 1px 1px rgb(151,24,64,0.2);
+	-webkit-backface-visibility: hidden;
+}
+#control-1:checked ~ .main #pandel-1 h2,
+#control-2:checked ~ .main #pandel-2 h2,
+#control-3:checked ~ .main #pandel-3 h2,
+#control-4:checked ~ .main #pandel-4 h2,
+#control-5:checked ~ .main #pandel-5 h2{
+	-webkit-animation: moveDown 0.6s ease-in-out 0.2s backwards;	/*backwards 动画在播放之前处于开始状态*/
+	-moz-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-ms-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-o-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	animation: moveDown 0.6s ease-in-out 0.2s backwards;
+}
+@-webkit-keyframes moveDown{
+	from{
+		-webkit-transform: translateY(-40px);
+		opacity: 0;
+	}
+	to{
+		-webkit-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-moz-keyframes moveDown{
+	from{
+		-moz-transform: translateY(-40px);
+		opacity: 0;
+	}
+	to{
+		-moz-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-ms-keyframes moveDown{
+	from{
+		-ms-transform: translateY(-40px);
+		opacity: 0;
+	}
+	to{
+		-ms-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-o-keyframes moveDown{
+	from{
+		-o-transform: translateY(-40px);
+		opacity: 0;
+	}
+	to{
+		-o-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@keyframes moveDown{
+	from{
+		transform: translateY(-40px);
+		opacity: 0;
+	}
+	to{
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+.panel p{
+	position: absolute;
+	width: 50%;
+	left: 25%;
+	top: 50%;	
+	font-size: 16px;
+	line-height: 22px;
+	padding: 0;
+	text-align: center;
+	-webkit-backface-visibility: hidden;
+	color: #8b8b8b;
+	margin-top: 10px;
+}
+#control-1:checked ~ .main #pandel-1 p,
+#control-2:checked ~ .main #pandel-2 p,
+#control-3:checked ~ .main #pandel-3 p,
+#control-4:checked ~ .main #pandel-4 p,
+#control-5:checked ~ .main #pandel-5 p{
+	-webkit-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-moz-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-ms-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-o-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	animation: moveUp 0.6s ease-in-out 0.2s backwards;
+}
+@-webkit-keyframes moveUp{
+	from{
+		-webkit-transform: translateY(40px);
+		opacity: 0;
+	}
+	to{
+		-webkit-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-moz-keyframes moveUp{
+	from{
+		-moz-transform: translateY(40px);
+		opacity: 0;
+	}
+	to{
+		-moz-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-ms-keyframes moveUp{
+	from{
+		-ms-transform: translateY(40px);
+		opacity: 0;
+	}
+	to{
+		-ms-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-o-keyframes moveUp{
+	from{
+		-o-transform: translateY(40px);
+		opacity: 0;
+	}
+	to{
+		-o-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@keyframes moveUp{
+	from{
+		transform: translateY(40px);
+		opacity: 0;
+	}
+	to{
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+/*修改颜色*/
+.color{
+	background: #fa96b5;
+}
+.color .desc{
+	background: #fff;
+}
+.color [data-icon]:after{
+	color: #fa96b5;
+}
+.color h2{
+	color: #fff;
+	text-shadow: 1px 1px 1px rgb(0,0,0,0.1);
+}
+.color p{
+	color: rgba(255,255,255,0.8);
+}
+/*自适应*/
+@media screen and (max-width: 520px) {
+	.panel h2{
+		font-size: 42px;
+	}
+	.panel p{
+		width: 90%;
+		left: 5%;
+		margin-top: 0;
+	}
+	.container > a{
+		font-size: 13px;
+	}
+}
+@media screen and (max-width: 360px) {
+	.panel h2{
+		font-size: 36px;
+	}
+	.panel p{
+		width: 90%;
+		left: 5%;
+		margin-top: 0;
+	}
+	.container > a{
+		font-size: 10px;
+	}
+	.desc{
+		width: 120px;
+		height: 120px;
+		margin-left: -60px;
+	}
+	[data-icon]:after{
+		font-size: 60px;
+		-webkit-transform: rotate(-45deg) translateY(15%);
+		-moz-transform: rotate(-45deg) translateY(15%);
+		-ms-transform: rotate(-45deg) translateY(15%);
+		-o-transform: rotate(-45deg) translateY(15%);
+		transform: rotate(-45deg) translateY(15%);
+	}
+}
