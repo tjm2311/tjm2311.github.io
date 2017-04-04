@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		body{
+			background: palegoldenrod;
+		}
+		#svg{
+			width: 780px;
+			height: 400px;
+			background: url(img/bg.jpg) no-repeat;
+			margin: 20px auto;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+<div id="svg">
+	<!--
+  
+	<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
+		<g style='cursor: pointer;'>    <!--中心组-->  
+			<!--<circle cx='390' cy='200' r='60' fill='#fff' stroke='red' stroke-width='3'></circle>-->
+			<!--<text x='390' y='208' font-size='20' text-anchor='middle'>唐静梅</text>-->
+		<!--</g>-->
+		<!--<g style='cursor: pointer;'>		<!--旁边小圆组-->
+			<!--<circle cx='100' cy='100' r='40' fill='#fff' stroke='red' stroke-width='3'></circle>-->
+			<!--<text x='100' y='108' font-size='20' text-anchor='middle'>美丽</text>-->
+		<!--</g>-->
+		<!--<g style='cursor: pointer;'>		<!--线条及中间正方形组-->
+			<!--<line x1='100' y1='100' x2='390' y2='200' stroke='#ccc'></line>-->
+			<!--<line x1='100' y1='100' x2='390' y2='200' stroke='transparent' stroke-width='10'></line>-->
+			<!--<rect x='235' y='140' fill='#999' width='20' height='20' rx='5'></rect>-->
+			<!--<text x='245' y='158' fill='#fff' font-size='20' text-anchor='middle'>?</text>-->
+		<!--</g>-->
+	<!--</svg>-->
+	 
+</div>
+<script>
+	var svgNS = 'http://www.w3.org/2000/svg';
+	var parent = document.getElementById('svg');   
+//	中心点坐标
+	var centerX = svg.offsetWidth/2;        
+	var centerY = svg.offsetHeight/2;
+	var circleNum = 9;     //圆的个数
+	var angleNum = 390/circleNum;
+	var centerR = 150;
+	var otherData = [];
+	
+	for(var i=0;i<circleNum;i++){
+		var y = Math.sin(i*40*Math.PI/180)*centerR + centerY;
+		var x = Math.cos(i*40*Math.PI/180)*centerR + centerX;
+		otherData.push({
+			x:x,
+			y:y,
+			text:i
+		})
+	}
+	
+	var data = {
+		centerNode:{text:'唐静梅'},
+		otherNode:otherData
+	}
+	
+	function createTag(tag,objAttr){
+		var oTag = document.createElementNS(svgNS,tag);
+		for(var attr in objAttr){
+			oTag.setAttribute(attr,objAttr[attr]);
+		}
+		return oTag;
+	}
+	function addTag(){
+		var svg = createTag('svg',{'xmlns':svgNS,'width':'100%','height':'100%'})
+		for(var i=0;i<data.otherNode.length;i++){
+			addOtherTag(data.otherNode[i],svg);
+		}
+
+		var g = createTag('g',{'style':'cursor:pointer'});
+		var circle = createTag('circle',{'cx':centerX, 'cy':centerY, 'r':'40', 'fill':'#fff', 'stroke':'red', 'stroke-width':'1'});
+		var text = createTag('text',{'x':centerX, 'y':centerY+8 ,'font-size':'20', 'text-anchor':'middle'});
+		text.innerHTML = data.centerNode.text;
+		
+		g.appendChild(circle);
+		g.appendChild(text);
+		svg.appendChild(g);
+		parent.appendChild(svg);
+	}
+	addTag()
+	
+	function addOtherTag(otherAttr,svg){
+		//创建线条及中间正方形
+		var g = createTag('g',{'style':'cursor:pointer','class':'lineStyle'})
+		var line1 = createTag('line',{'x1':otherAttr.x,'y1':otherAttr.y,'x2':centerX,'y2':centerY,'stroke':'#ccc'});
+		var line2 = createTag('line',{'x1':otherAttr.x,'y1':otherAttr.y,'x2':centerX,'y2':centerY,'stroke':'transparent','stroke-width':'10'});
+		var rect = createTag('rect',{'x': (otherAttr.x + centerX)/2 - 10 ,'y': (otherAttr.y + centerY)/2 - 10 ,'fill':'#999','width':'20','height':'20','rx':'5'});
+		var text = createTag('text',{'x':(otherAttr.x + centerX)/2,'y':(otherAttr.y + centerY)/2 + 8,'fill':'white','font-size':'20','text-anchor':'middle'});
+		text.innerHTML = '?';
+		g.appendChild(line1);
+		g.appendChild(line2);
+		g.appendChild(rect);
+		g.appendChild(text);
+		svg.appendChild(g);
+		//创建旁边的圆
+		var g = createTag('g',{'style':'cursor:pointer','class':'circleStyle'});
+		var circle = createTag('circle',{'cx':otherAttr.x,'cy':otherAttr.y,'r':'30','fill':'white','stroke':'red','stroke-width':'1'});
+		var text = createTag('text',{'x':otherAttr.x,'y':otherAttr.y+8,'font-size':'20','text-anchor':'middle'});
+		text.innerHTML = otherAttr.text;
+		g.appendChild(circle);
+		g.appendChild(text);
+		svg.appendChild(g);
+	}
+	bindTag();
+	function bindTag(){     //事件绑定
+		var line = document.getElementsByClassName('lineStyle');
+		var circle = document.getElementsByClassName('circleStyle');
+		
+		for(var i=0;i<circle.length;i++){ //鼠标移入圆发生的变化
+			circle[i].onmouseenter = function(){      //鼠标移入放大并抖动
+				startMove(this.getElementsByTagName('circle')[0],30,40)
+				var prevLine = this.previousElementSibling;
+				prevLine.getElementsByTagName('line')[0].setAttribute('stroke','blue');
+				prevLine.getElementsByTagName('rect')[0].setAttribute('fill','red');
+				
+			}
+			circle[i].onmouseleave = function(){     //鼠标移出变回原来的样式
+				startMove(this.getElementsByTagName('circle')[0],40,30);
+				var prevLine = this.previousElementSibling;
+				prevLine.getElementsByTagName('line')[0].setAttribute('stroke','#ccc');
+				prevLine.getElementsByTagName('rect')[0].setAttribute('fill','#999')
+			}
+		}
+		for(var i=0;i<circle.length;i++){    //鼠标移入线条发生的变化
+			line[i].onmouseenter = function(){
+				this.getElementsByTagName('line')[0].setAttribute('stroke','blue');
+				this.getElementsByTagName('rect')[0].setAttribute('fill','red');
+				var prevCircle = this.nextElementSibling;
+				startMove(prevCircle.getElementsByTagName('circle')[0],30,40);
+			}
+			line[i].onmouseleave = function(){
+				this.getElementsByTagName('line')[0].setAttribute('stroke','#ccc');
+				this.getElementsByTagName('rect')[0].setAttribute('fill','#999');
+				var prevCircle = this.nextElementSibling;
+				startMove(prevCircle.getElementsByTagName('circle')[0],40,30);
+			}
+		}
+	}
+	//抖动的函数
+	function startMove(obj,r1,r2){
+		var nowR = r1;
+		var overR = r2;
+		obj.speed = 0;
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function(){
+			obj.speed +=(overR - nowR)/6;
+			obj.speed *= 0.9;
+			if(Math.abs(overR - nowR)<=1 && Math.abs(obj.speed)<=1){
+				clearInterval(obj.timer);
+				obj.setAttribute('r',overR);
+			}else{
+				nowR +=obj.speed;
+				obj.setAttribute('r',nowR);
+			}
+		},30)
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+*{margin: 0;padding: 0;}
+ul{list-style: none;}
+#main_content{
+	float: right;
+	width:860px;
+	height: 600px;
+	background: gray;
+}
+#content_wrap{
+	width:860px;
+	height: 600px;
+}
+#content_wrap div{
+	border: 2px solid #fff;
+	width: 760px;
+	height: 460px;
+	position: absolute;
+	top: 10%;
+	text-align: center;
+	overflow: hidden;
+	background: palegoldenrod;
+}
+/**/
+#content_wrap .like{
+ 	border: 10px solid gold;
+ 	 transform-style: preserve-3d;
+ 	  /*-webkit-transform: rotateX(90deg) translateZ(250px) translateY(-250px);
+          transform: rotateX(90deg) translateZ(250px) translateY(-250px);*/
+
+ }
+#main_content .like ul{
+	position: relative;
+	width: 100%;
+	height: 100%;
+    -webkit-transform: rotateX(0deg) rotateY(0deg);
+    	transform: rotateX(0deg) rotateY(0deg);
+    	transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+}
+#like{
+	 /*-webkit-transform: rotateX(0deg) rotateY(0deg);
+    	transform: rotateX(0deg) rotateY(0deg);*/
+    	
+  
+ 
+}
+#main_content .like ul li{
+  	/*border: 5px solid salmon;*/
+  	width: 130px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -66px;
+    margin-top: -100px;
+    	transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    	transform: perspective(800px) rotateX(0deg) rotateY(0deg);
+  	-webkit-transform: perspective(800px) rotateX(0deg) rotateY(0deg);
+  }
+#main_content .like ul li a{
+	width: 130px;
+    height: 200px;
+    display: block;
+}
+#main_content .like ul li span{
+  width: 130px;
+  height: 200px;
+  display: block;
+  border: 5px solid salmon;
+  border-radius: 10px;
+  box-shadow: 0 0 10px salmon;
+  background-size: 100% 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -66px;
+}
+</style>
+</head>
+<body>
+<div id="main_content">
+	<div id="content_wrap">
+		<div class="like">
+			<ul  style="border: 1px solid red;">
+				<li id="like">
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<a href="javascript:;"><span></span></a>
+					<span id="span"></span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script>
+	"use strict"
+	var like = document.getElementById('like');
+	var spans = like.querySelectorAll('span');
+	var sp = spans.length-1;
+	for( var i=0;i<sp;i++){
+		if(i<sp){
+			spans[i].style.background = 'url(../img/'+i+'.jpg)'
+		}
+	}
+	//打开旋转
+	spans[sp].onclick = function(){
+//		console.log(like.children[0].children[6])
+		like.removeChild(this);
+		for(var i=0;i<sp;i++){
+			spans[i].style.transition = '1s all ease';
+			(function(index){
+				setTimeout(function(){
+					spans[index].style.transform = 'rotateY(-'+index*360/sp+'deg) translateZ(300px)'
+				})
+			})(i)
+		}
+//		拖拽
+		let x = 0,
+		y = 0,
+		speedX = 0,
+		speedY = 0,
+		lastX = 0,
+		lastY = 0,
+		timer = null;
+		like.onmousedown = function(ev){
+			clearInterval(timer);
+			let  disX = ev.pageX - y,
+			disY = ev.pageY -x;
+			document.onmousemove = function(ev){
+				x = ev.pageY - disY;
+				y = ev.pageX - disX;
+				like.style.transform = 'perspective(800px) rotateX('+(-x/5)+'deg) rotateY('+y/5+'deg)';
+				speedX = ev.pageX - lastX;
+				speedY = ev.pageY - lastY;
+				lastX = ev.pageX;
+				lastY = ev.pageY;
+			}
+			document.onmouseup = function(){
+				document.onmousemove = document.onmouseup = null;
+				timer = setInterval(function(){
+					speedX*=0.95;
+					speedY*=0.95;
+					y+=speedX;
+					x+=speedY;
+					like.style.transform = 'perspective(800px) rotateX('+-x/5+'deg) rotateY('+y/5+'deg)';
+					if(Math.abs(speedX)<1)speedX=0;
+					if(Math.abs(speedY)<1)speedY=0;
+					if(speedX==0&&speedY==0){
+						clearInterval(timer);
+					}
+				},30)
+			}
+			return false;
+		}
+	}
+</script>
+</body>
+</html>
