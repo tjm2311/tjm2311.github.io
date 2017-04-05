@@ -31,6 +31,27 @@
 		}
 	}
 })();
+//个人信息
+(function(){
+	var oMsg=document.getElementById('message');
+	var aSpan=oMsg.children;
+	var arr=['姓名：唐静梅','年龄：24岁','电话：13366244689','专业：计算机科学与技术','学校：成都东软学院',,'邮箱：jamie_t@163.com'];
+	var iNow=0;
+	function play(n){
+		var i=0;
+		aSpan[n].timer=setInterval(function(){
+			aSpan[n].innerHTML+=arr[n].charAt(i);
+			i++;
+			if(i==arr[n].length){
+				clearInterval(aSpan[n].timer);
+				n++;
+				if(n==arr.length)return;
+				play(n);
+			}
+		},100);
+	}
+	play(iNow);
+})()
 //web静态网页左右滑动效果
 (function(){
 	var web = document.getElementById('web');
