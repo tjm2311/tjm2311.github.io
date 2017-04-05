@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style type="text/css">
+	body{
+		background:#000;
+		overflow: hidden;
+	}
+	#box{
+		width:650px;
+		height:310px;
+		position:absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0;
+		margin:80px auto;
+	}
+	#box div,ul{
+		width:550px;
+		height:310px;
+		/*width: 80%;
+		height: 80%;*/
+		margin:0;
+		padding:0;
+		float: left;
+		position: relative;
+		perspective: 800px;
+	}
+	ul li{
+		list-style: none;
+		position: absolute;
+	}
+	.direction{
+		width:50px;
+		height: 100px;
+		background: url(../img/next.png);
+		opacity: 0.6;
+		position: absolute;
+		top: 100px;
+	}
+	.prev{
+		left: -70px;
+	}
+	.next{
+		right: 10px;
+	background-position: -108px 0;
+	}
+</style>
+</head>
+<body>
+<div id="box">
+	<a href="javascript:;" class="direction prev"></a>
+	<div><ul></ul></div>
+	<a href="javascript:;" class="direction next"></a>
+</div>
+
+<script type="text/javascript">
+	var oBox = document.getElementById("box"),
+		oDiv = oBox.getElementsByTagName("div")[0],
+		oUl = oBox.getElementsByTagName("ul")[0],
+		aLi = oUl.getElementsByTagName("li");
+		
+	var oPrev = document.getElementsByClassName("direction")[0],
+		oNext = document.getElementsByClassName("direction")[1];
+		
+	var arr = ['../img/1.jpg','../img/2.jpg','../img/3.jpg','../img/4.jpg','../img/5.jpg','../img/6.jpg'];
+	var n = 0;
+	
+	
+	//初始图片
+	oUl.style.backgroundImage = 'url('+arr[n]+')';
+
+	//左右切换图片
+	oNext.onclick = function(){
+		Add();
+		mod_Four();
+		mod_Four_Move();
+	}
+	oPrev.onclick = function(){
+		Minus();
+		mod_Four();
+		mod_Four_Move();
+	}
+	
+	//n++
+	function Add(){
+		oUl.style.overflow = "hidden";
+		oUl.style.backgroundImage = 'url('+arr[n]+')';
+		n++;
+		if(n==arr.length){
+			n=0;
+		}
+	};
+	//n--
+	function Minus(){
+		oUl.style.overflow = "hidden";
+		oUl.style.backgroundImage = 'url('+arr[n]+')';
+		n--;
+		if(n<0){
+			n=arr.length-1;
+		}
+	}
+	
+
+	
+		//进入退出效果
+				//初始化
+			function mod_Four(){
+				oDiv.style.overflow = 'hidden';
+				oUl.innerHTML = '<li style="width:550px;height:310px;"></li>';
+				aLi[0].style.backgroundImage = 'url('+arr[n]+')';
+				aLi[0].style.transform = 'scale(0)';
+				aLi[0].style.transition = '';
+				oUl.style.transform = 'scale(1)';
+				oUl.style.transition = '';
+			};
+				//运动过程
+			function mod_Four_Move(){
+				setTimeout(function(){
+					aLi[0].style.transform = 'scale(0.25)';//规律：x:aLi[0],y:oUl--- x * y = 1 ;
+					aLi[0].style.transition = '2s';
+					oUl.style.transform = 'scale(4)';
+					oUl.style.transition = '2s';
+				},300);
+				setTimeout(function(){
+					onOff = true;
+				},2400)
+			}
+	
+
+
+
+
+</script>
+</body>
+</html>

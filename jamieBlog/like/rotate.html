@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style type="text/css">
+	body{
+		background:#000;
+		overflow: hidden;
+	}
+	#box{
+		width:650px;
+		height:310px;
+		position:absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0;
+		margin:80px auto;
+	}
+	#box div,ul{
+		width:550px;
+		height:310px;
+		/*width: 80%;
+		height: 80%;*/
+		margin:0;
+		padding:0;
+		float: left;
+		position: relative;
+		perspective: 800px;
+	}
+	ul li{
+		list-style: none;
+		position: absolute;
+	}
+	.direction{
+		width:50px;
+		height: 100px;
+		background: url(../img/next.png);
+		opacity: 0.6;
+		position: absolute;
+		top: 100px;
+	}
+	.prev{
+		left: -70px;
+	}
+	.next{
+		right: 10px;
+	background-position: -108px 0;
+	}
+</style>
+</head>
+<body>
+<div id="box">
+	<a href="javascript:;" class="direction prev"></a>
+	<div><ul></ul></div>
+	<a href="javascript:;" class="direction next"></a>
+</div>
+
+<script type="text/javascript">
+	var oBox = document.getElementById("box"),
+		oDiv = oBox.getElementsByTagName("div")[0],
+		oUl = oBox.getElementsByTagName("ul")[0],
+		aLi = oUl.getElementsByTagName("li");
+		
+	var oPrev = document.getElementsByClassName("direction")[0],
+		oNext = document.getElementsByClassName("direction")[1];
+		
+	var arr = ['../img/1.jpg','../img/2.jpg','../img/3.jpg','../img/4.jpg','../img/5.jpg','../img/6.jpg'];
+	var n = 0;
+	
+	
+	//初始图片
+	oUl.style.backgroundImage = 'url('+arr[n]+')';
+
+	//左右切换图片
+	oNext.onclick = function(){
+		mod_Three();
+		oUl.style.background = 'none';
+		oUl.style.overflow = "visible";
+			n++;
+			if(n==arr.length){
+				n=0;
+			}
+		rotate_Move();
+	}
+	oPrev.onclick = function(){
+		mod_Three();
+		oUl.style.background = 'none';
+		oUl.style.overflow = 'visible';
+			n--;
+			if(n<0){
+				n=arr.length-1;
+			}
+		rotate_Move();
+	}
+	
+	
+	//图片旋转效果
+		//初始化
+	function mod_Three(){
+		oUl.innerHTML = '';
+		oDiv.style.overflow = 'visible';
+		for (var i = 0; i < 100; i++) {
+			oUl.innerHTML += '<li style="width:55px;height:31px;left:'+i%10*55+'px;top:'+Math.floor(i/10)*31+'px;background-position-x:'+(-i%10*55)+'px;background-position-y:'+(-Math.floor(i/10)*31)+'px;"></li>';
+			aLi[i].style.backgroundImage = 'url('+arr[n]+')';
+			aLi[i].style.transform = 'scale(1)';
+			aLi[i].style.transition = '';
+			oUl.style.transform = 'scale(1)';
+			oUl.style.transition = '';
+		}
+	};
+		//运动过程
+	function rotate_Move(){
+		var endNum = 0;
+		for (var i = 0; i < aLi.length; i++) {
+			(function(i){
+				setTimeout(function(){
+					montion(aLi[i],'18ms',function(){
+						this.style.transform = 'scale(0)';
+					},function(){
+						montion(this,'1s',function(){
+							this.style.transform = 'scale(1)';
+							this.style.opacity = 0;
+						},function(){
+							endNum++;
+							if(endNum==aLi.length){
+								toBig();
+							}
+						})
+					});
+				},Math.random()*1000);
+			})(i);
+		}
+
+	}
+	
+	//图片旋转效果
+	function toBig(){
+		var allEnd = 0;
+		for (var i = 0; i < aLi.length; i++) {
+			aLi[i].style.transition = '';
+			aLi[i].style.transform = 'rotateY(0deg) translateZ(-'+Math.random()*650+'px)';
+			(function(i){
+				setTimeout(function(){
+					montion(aLi[i],'2s',function(){
+						this.style.opacity = 1;
+						this.style.transform = 'rotateY(-360deg) translateZ(0)';
+					},function(){
+						allEnd++;
+						if(allEnd==aLi.length){
+							onOff=!onOff;
+						}
+					})
+				},Math.random()*1000);
+			})(i);
+		}
+	}
+	//运动函数（运动对象，运动时间，运动属性函数，回调函数）
+		function montion(obj,time,doFn,callBack){
+			obj.style.transition = time;
+			doFn.call(obj);//调用函数，并把this的指向给obj
+			var called = false;//解决transitionend调用多次的bug
+			obj.addEventListener('transitionend',function(){
+				if(!called){
+					callBack && callBack.call(obj);
+					called = true;
+				}
+			},false);
+		}
+	
+
+
+</script>
+</body>
+</html>
